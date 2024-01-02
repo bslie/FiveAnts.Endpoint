@@ -53,6 +53,18 @@ public class Endpoint<T> : IDisposable
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
     }
 
+    public Endpoint<T> AddCookie(string name, string value)
+    {
+        _httpClient.DefaultRequestHeaders.Add("Cookie", $"{name}={value}");
+        return this;
+    }
+
+    public Endpoint<T> AddHeader(string name, string value)
+    {
+        _httpClient.DefaultRequestHeaders.Add(name, value);
+        return this;
+    }
+
     public Endpoint<T> AppendPathSegment<TSegment>(TSegment segment)
     {
         if (segment == null) throw new ArgumentNullException(nameof(segment), "Value cannot be null.");
