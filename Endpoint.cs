@@ -61,6 +61,17 @@ public class Endpoint<T> : IDisposable
         return this;
     }
 
+    public Endpoint<T> AppendPathSegments(params string[] segments)
+    {
+        foreach (string segment in segments)
+        {
+            if (string.IsNullOrEmpty(segment)) continue; // skip empty strings
+            if (_uriBuilder.Path.Length > 0 && !_uriBuilder.Path.EndsWith("/")) _uriBuilder.Path += '/';
+            _uriBuilder.Path += $"/{segment}";
+        }
+        return this;
+    }
+
     public Endpoint<T> SetQueryParam<TName, TValue>(TName name, TValue value)
     {
         if (name == null) return this;
