@@ -19,7 +19,7 @@ public class Endpoint<T> : IDisposable
         if (string.IsNullOrWhiteSpace(baseUrl))
             throw new ArgumentException("Value cannot be null or whitespace.", nameof(baseUrl));
 
-        KeepAlive = false;
+        KeepAlive = false; //TODO: необходимо понять его целесообразность.
 
         try
         {
@@ -53,15 +53,30 @@ public class Endpoint<T> : IDisposable
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
     }
 
-    public Endpoint<T> AddCookie(string name, string value)
+    public Endpoint<T> AddOrUpdateCookie(string name, string value)
     {
-        _httpClient.DefaultRequestHeaders.Add("Cookie", $"{name}={value}");
+        if (_httpClient.DefaultRequestHeaders.TryGetValues("Cookie", out var cookies))
+        {
+            var cookieHeader = cookies.First();
+            var cookieCollection = cookieHeader.Split("; ").ToDictionary(cookie => cookie.Split('=')[0], cookie => cookie.Split('=')[1]);
+
+            cookieCollection[name] = value;
+
+            var newCookieHeader = string.Join("; ", cookieCollection.Select(cookie => $"{cookie.Key}={cookie.Value}"));
+            _httpClient.DefaultRequestHeaders.Remove("Cookie");
+            _httpClient.DefaultRequestHeaders.Add("Cookie", newCookieHeader);
+        }
+        else
+        {
+            _httpClient.DefaultRequestHeaders.Add("Cookie", $"{name}={value}");
+        }
+
         return this;
     }
 
     public Endpoint<T> AddHeader(string name, string value)
     {
-        _httpClient.DefaultRequestHeaders.Add(name, value);
+        _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(name, value);
         return this;
     }
 
