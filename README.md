@@ -14,7 +14,7 @@ Here're some of the project's best features:
 
 <p>Installation via command line using dotnet CLI.</p>
 
-```
+```ruby
 dotnet add package FiveAnts.Endpoint
 ```
 
