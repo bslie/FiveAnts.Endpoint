@@ -18,6 +18,70 @@ Here're some of the project's best features:
 dotnet add package FiveAnts.Endpoint
 ```
 
+<h2>Example</h2>
+
+```C#
+
+public class Todo
+{
+    [JsonProperty("userId")]
+    public int UserId;
+
+    [JsonProperty("id")]
+    public int Id;
+
+    [JsonProperty("title")]
+    public string? Title;
+
+    [JsonProperty("completed")]
+    public bool Completed;
+}
+
+public static async Task<Todo> GetTodo(int id)
+{
+    var endpoint = new Endpoint<Todo>("https://jsonplaceholder.typicode.com");
+
+    //https://jsonplaceholder.typicode.com/todos/1
+    return await endpoint
+        .AppendPathSegments("todos", $"{id}")
+        .GetAsync();
+}
+
+```
+
+
+```C#
+
+  public class Comments
+  {
+      [JsonProperty("postId")]
+      public int PostId;
+
+      [JsonProperty("id")]
+      public int Id;
+
+      [JsonProperty("name")]
+      public string? Name;
+
+      [JsonProperty("email")]
+      public string? Email;
+
+      [JsonProperty("body")]
+      public string? Body;
+  }
+
+  public static async Task<List<Comments>> GetComment(int id)
+  {
+      var endpoint = new Endpoint<List<Comments>>("https://jsonplaceholder.typicode.com");
+
+      //https://jsonplaceholder.typicode.com/comments?postId=1
+      return await endpoint
+          .AppendPathSegment("comments")
+          .SetQueryParam("postId", id)
+          .GetAsync();
+  }
+
+```
   
   
 <h2>💻 Built with</h2>
