@@ -37,13 +37,13 @@ public class Todo
     public bool Completed;
 }
 
-public static async Task<Todo> GetTodo(int id)
+public static async Task<Todo> GetTodo()
 {
     var endpoint = new Endpoint<Todo>("https://jsonplaceholder.typicode.com");
 
     //https://jsonplaceholder.typicode.com/todos/1
     return await endpoint
-        .AppendPathSegments("todos", $"{id}")
+        .AppendPathSegments("todos", "1")
         .GetAsync();
 }
 
@@ -70,14 +70,14 @@ public static async Task<Todo> GetTodo(int id)
       public string? Body;
   }
 
-  public static async Task<List<Comments>> GetComment(int id)
+  public static async Task<List<Comments>> GetComment()
   {
       var endpoint = new Endpoint<List<Comments>>("https://jsonplaceholder.typicode.com");
 
       //https://jsonplaceholder.typicode.com/comments?postId=1
       return await endpoint
           .AppendPathSegment("comments")
-          .SetQueryParam("postId", id)
+          .SetQueryParam("postId", 1)
           .GetAsync();
   }
 
