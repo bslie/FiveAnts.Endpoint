@@ -134,6 +134,25 @@ public class Endpoint<T> : IDisposable
         }
     }
 
+    public async Task<Stream> GetStreamAsync()
+    {
+        var url = _uriBuilder.ToString();
+
+        try
+        {
+            var response = await _httpClient.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+                throw new HttpRequestException($"The server returned a status code {response.StatusCode}");
+
+            return await response.Content.ReadAsStreamAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new EndpointException("An error occurred while executing a GET request", ex);
+        }
+    }
+
     public async Task<T> PostAsync<TContent>(TContent content)
     {
         var url = _uriBuilder.ToString();
