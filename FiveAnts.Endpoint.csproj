@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>FiveAnts.Endpoint</Title>
+    <Description>The Endpoint class in C# is a versatile HTTP client wrapper for making RESTful API calls. It supports various HTTP methods like GET, POST, PUT, DELETE, and PATCH, and allows for header, cookie, and query parameter manipulation. It also provides basic and bearer token authentication.</Description>
+    <RootNamespace>FiveAnts.Endpoint</RootNamespace>
+    <Copyright>MIT License</Copyright>
+    <Nullable>enable</Nullable>
+    <AssemblyVersion>0.0.2</AssemblyVersion>
+    <FileVersion>0.0.2</FileVersion>
+    <Version>$(VersionPrefix)0.0.2</Version>
+    <Authors>Lie</Authors>
+    <Company>bslie</Company>
+    <PackageDescription>The Endpoint class in C# is a versatile HTTP client wrapper for making RESTful API calls. It supports various HTTP methods like GET, POST, PUT, DELETE, and PATCH, and allows for header, cookie, and query parameter manipulation. It also provides basic and bearer token authentication.</PackageDescription>
+    <RepositoryUrl>https://github.com/bslie/FiveAnts.Endpoint</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="content\image.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="content\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include=".\content\License.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+</Project>

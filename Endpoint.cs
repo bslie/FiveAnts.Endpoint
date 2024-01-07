@@ -99,16 +99,25 @@ public class Endpoint<T> : IDisposable
         return this;
     }
 
-    public Endpoint<T> SetQueryParam<TName, TValue>(TName name, TValue value)
+    public Endpoint<T> SetQueryParam<TName, TValue>(TName name, TValue value, bool encode = true)
     {
         if (name == null) return this;
         if (value == null) return this;
 
-        var queryParams = HttpUtility.ParseQueryString(_uriBuilder.Query);
-        queryParams[name.ToString()] = value.ToString();
-        _uriBuilder.Query = queryParams.ToString();
+        if (encode)
+        {
+            var queryParams = HttpUtility.ParseQueryString(_uriBuilder.Query);
+            queryParams[name.ToString()] = value.ToString();
+            _uriBuilder.Query = queryParams.ToString();
+        }
+        else
+        {
+            _uriBuilder.Query = _uriBuilder.Query.TrimStart('?') + "&" + name + "=" + value;
+        }
+
         return this;
     }
+
 
     public async Task<T> GetAsync()
     {
