@@ -5,7 +5,7 @@ namespace Endpoint.NET;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
-using Exceptions;
+using Endpoint.NET.Exceptions;
 
 public class Endpoint<T> : IDisposable
 {
@@ -84,7 +84,8 @@ public class Endpoint<T> : IDisposable
     {
         if (segment == null) throw new ArgumentNullException(nameof(segment), "Value cannot be null.");
 
-        _uriBuilder.Path = _uriBuilder.Path.TrimEnd('/') + "/" + segment;
+        var normalized = segment.ToString()?.Trim('/') ?? string.Empty;
+        _uriBuilder.Path = _uriBuilder.Path.TrimEnd('/') + "/" + normalized;
         return this;
     }
 
@@ -93,8 +94,10 @@ public class Endpoint<T> : IDisposable
         foreach (string segment in segments)
         {
             if (string.IsNullOrEmpty(segment)) continue; // skip empty strings
-            if (_uriBuilder.Path.Length > 0 && !_uriBuilder.Path.EndsWith("/")) _uriBuilder.Path += '/';
-            _uriBuilder.Path += $"/{segment}";
+            var normalized = segment.Trim('/');
+            if (_uriBuilder.Path.Length > 0 && !_uriBuilder.Path.EndsWith("/"))
+                _uriBuilder.Path += '/';
+            _uriBuilder.Path += normalized;
         }
         return this;
     }
